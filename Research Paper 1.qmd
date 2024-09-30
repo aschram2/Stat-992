@@ -57,9 +57,13 @@ Building off of Wickham (2010), the first addition to the minimal grammar should
 
 ## References
 
-Hadley Wickham. (2009). *Ggplot2*. New York, Ny Springer New York.
+H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
+
+Hadley Wickham. (2009). *ggplot2*. New York, Ny Springer New York.
 
 Morel, P. (2018). Gramm: grammar of graphics plotting in Matlab. *The Journal of Open Source Software*, *3*(23), 568. https://doi.org/10.21105/joss.00568
+
+R Core Team (2023). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
 
 Satyanarayan, A., Moritz, D., Wongsuphasawat, K., & Heer, J. (2017). Vega-Lite: A Grammar of Interactive Graphics. *IEEE Transactions on Visualization and Computer Graphics*, *23*(1), 341–350. https://doi.org/10.1109/tvcg.2016.2599030
 
