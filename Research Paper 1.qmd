@@ -49,6 +49,30 @@ Vega-Lite differs quite a bit from ggplot2 in that it is supposed to incorporate
 
 Starting with Unit Specification as reported by Satyanarayan *et al* (2017), a single unit creates in total a single Cartesian plot, so right-away the Coordinates class of the grammar is invoked. It would make sense, then that the rest of the inner category of Unit Specification should involve all previous classes if it were to strictly follow the Grammar of Graphics data flow, but we see that this level of grammar from Vega-Lite involves data, data transformations, mark type, and encoding at the Unit Specification. Now, data, data transformations, and mark type correspond to the Variable, Algebra, Geometry classes, respectively, while encoding incorporates channel, field, data-type, values, functions, scale and guide as additional sub-fields. Then, channel has to do with Aesthetics, field and data-type is the Statistics and Scale classes, and then we can view value as a sub-set of field and the others as a subset of Aesthetics. Therefore, a single Unit Specification is sufficient to invoke all of the Grammar of Graphic with all else being extra.
 
+**Implementations**
+
+Furthering the discussion of the Grammar of Graphics with ggplot2 and Vega-Lite, we will be examining the code for creating such graphics. Examining the code will allow us to determine the ease of the implementation of ggplot2 and Vega-Lite, but it will also allow us to further inspect the authors' incorporation of the grammar.
+
+Starting with two examples from **R** documentation and from the Posit ggplot2 cheat sheet, we have: as written by R Core Team (2023),
+
+"ggplot(data = sample_df, mapping = aes(x = group, y = value)) + geom_point() + geom_point( mapping = aes(y = group_mean), data = group_means_df, colour = 'red', size = 3 )",
+
+and then we have from Posit's website under resources and cheat sheets (<https://posit.co/resources/cheatsheets/>) for *Data Visualization with ggplot2 :: Cheat Sheet* (2024)*,* a code template written as,
+
+"ggplot(data = \<Data\>) + \<Geom_Function\>(mapping = aes(\<Mappings\>), stat = \<Stat\>, position = \<Position\>) + \<Coordinate_Function\> + \<Facet_Function\> + \<Scale_Function\> + \<Theme_Function\>".
+
+From the first chunk of code, we the pre-processed data is already ran in using the data variable, and then mapping calls the x and y variables, and finally geom_point creates the Statistics class and the Geometry class being called. Meanwhile, arguments like colour and size are purely part of the Aesthetics class. So, we see initially from default setting that ggplot mainly calls the Statistics, Geometry, and Aesthetics class without the need to specify any other arguments. In theory, we could reduce this further to the Statistics class and Geometry class if we refused to use or specify any of the choices allowed for the Aesthetics class.
+
+From the second chunk of code show for ggplot2, we see the full bore scale of all potential arguments that ggplot2 is capable of taking. Specifically, we see the geom_function as the Geometry class, stat as the Statistics class, coordinate_function as Coordinate class, and the scale_function as the Scale class. The position variable is part of an element, and the theme_function is purely part of the Aesthetics class. Additionally, we do not see the extra aesthetic choices that could be made with arguments such as color, fill, or size options in this representation of the code, but otherwise ggplot 2 appears to make use of the Grammar of Graphics as specified in the earlier section.
+
+Moving on to Vega-Lite, we have one example taken from the Vega-Lite website as written,
+
+"{ "data": { "values": \[ {"a": "C", "b": 2}, {"a": "C", "b": 7}, {"a": "C", "b": 4}, {"a": "D", "b": 1}, {"a": "D", "b": 2}, {"a": "D", "b": 6}, {"a": "E", "b": 8}, {"a": "E", "b": 4}, {"a": "E", "b": 7} \] }, "mark": "bar", "encoding": { "y": {"field": "a", "type": "nominal"}, "x": { "aggregate": "average", "field": "b", "type": "quantitative", "title": "Mean of b" } } }" (Introduction to Vega-Lite, 2024).
+
+Due to a general lack of experience with Vega-Lite, the interpretation of the code will be minimal at best and will rely mostly on previously stated arguments, but unlike ggplot2 we have actual Variable and Algebra classes with the data and values read in functions. Mark is the Geometry class as it has bar as in bar plot stated afterwards. Then, encoding as stated previously has field, which denotes the data type and scale, and we have an aggregate function to take the mean values of x as well as a title for the x-axis. Therefore, we see that this code is a single Unit Specification, and we have all seven of the classes represented as originally stated on this topic.
+
+Overall, Vega-Lite incorporates more of the Grammar of Graphics than ggplot2 as well as the addition of the Interactive Grammar of Graphics, however the notation Vega-Lite is much more cumbersome to navigate. The reason being that Vega-Lite doesn't call specific variables at each step like ggplot2, so we are left we a lot of brackets, parentheses, and quotation marks. Additionally, Vega-Lite has re-categorized and renamed the classes of the grammar, and this makes unneeded complications, while ggplot2 still calls the class names at each step. Therefore, even though ggplot2 skips some grammar classes, we find that is more true to the original Grammar of Graphics.
+
 **Additions to the Minimal Grammar**
 
 Throughout this paper, we discussed and defined the seven orthogonal classes of the Grammar of Graphics, the minimal amount of language required to make a graphic, and two programs that incorporate the Grammar of Graphics. Recall, we defined the minimum cases to form a statistical graphic as the Statistic, Geometry, and Aesthetics classes, however this incredibly limiting, so we should also include the Coordinate class to specify the plotting dimensions. With these four classes, we can now define this as our minimal grammar.
@@ -57,9 +81,13 @@ Building off of Wickham (2010), the first addition to the minimal grammar should
 
 ## References
 
+*Data visualization with ggplot2 :: Cheat Sheet*. (2024). Rstudio.github.io. https://rstudio.github.io/cheatsheets/html/data-visualization.html?\_gl=1
+
 H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
 
 Hadley Wickham. (2009). *ggplot2*. New York, Ny Springer New York.
+
+*Introduction to Vega-Lite*. (2024). Vega-Lite. https://vega.github.io/vega-lite/tutorials/getting_started.html
 
 Morel, P. (2018). Gramm: grammar of graphics plotting in Matlab. *The Journal of Open Source Software*, *3*(23), 568. https://doi.org/10.21105/joss.00568
 
